@@ -147,12 +147,6 @@ def train(epoch):
         # pruning strategy
         prune_model(net, "resnet18", ratio)
         
-        # # adjust learning rate
-        # if batch_idx in batch_idx_for_ft:
-        #     current_lr = optimizer.param_groups[0]['lr']
-        #     for param_group in optimizer.param_groups:
-        #         param_group["lr"] = 0.00001
-        
         outputs = net(inputs)
         loss = criterion(outputs, targets)
         loss.backward()
