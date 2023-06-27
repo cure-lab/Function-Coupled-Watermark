@@ -110,7 +110,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9, weight_decay=5e-4
 scheduler = MultiStepLR(optimizer, milestones=[15,25,35], gamma=0.1)
 
 # Training
-ratio = 0.2
+ratio = 0.05
 def train(epoch):
     print('Epoch {}/{}'.format(epoch + 1, 40)) 
     print('-' * 10) 
