@@ -1223,22 +1223,23 @@ def prune_attack(net, arch, pruning_rate):
     torch.nn.utils.prune.global_unstructured(parameters_to_prune, pruning_method=torch.nn.utils.prune.L1Unstructured,
                                              amount=pruning_rate)
 
-    # dividend_sum = 0
-    # divisor_sum = 0
-    # for (module, name) in parameters_to_prune:
-    #     dividend = float(torch.sum(module.weight == 0))
-    #     divisor = float(module.weight.nelement())
-    #     print("Sparsity in module: {:.2f}%".format(
-    #         100. * dividend
-    #         / divisor))
-    #     dividend_sum += dividend
-    #     divisor_sum += divisor
-
-    # print("Global sparsity: {:.2f}%".format(
-    #     100. * float(dividend_sum) / float(divisor_sum)))
-
     for module in get_modules(arch, net):
         torch.nn.utils.prune.remove(module, "weight")
+
+class GlobalRandomPruningMethod(torch.nn.utils.prune.BasePruningMethod):
+    PRUNING_TYPE = 'unstructured'
+
+    def __init__(self, amount):
+        self.amount = amount
+
+    def compute_mask(self, tensor, default_mask):
+        mask = torch.ones_like(tensor)
+
+        num_prune = int(self.amount * tensor.numel())
+
+        mask.view(-1)[torch.randperm(tensor.numel())[:num_prune]] = 0
+
+        return mask
 
 def prune_model(net, arch, pruning_rate):
     """
@@ -1248,22 +1249,8 @@ def prune_model(net, arch, pruning_rate):
     parameters_to_prune = get_params_to_prune(arch, net)
 
     logging.info('Prune...')
-    torch.nn.utils.prune.random_unstructured(parameters_to_prune, pruning_method=torch.nn.utils.prune.L1Unstructured,
+    torch.nn.utils.prune.global_unstructured(parameters_to_prune, pruning_method=GlobalRandomPruningMethod,
                                              amount=pruning_rate)
-
-    # dividend_sum = 0
-    # divisor_sum = 0
-    # for (module, name) in parameters_to_prune:
-    #     dividend = float(torch.sum(module.weight == 0))
-    #     divisor = float(module.weight.nelement())
-    #     print("Sparsity in module: {:.2f}%".format(
-    #         100. * dividend
-    #         / divisor))
-    #     dividend_sum += dividend
-    #     divisor_sum += divisor
-
-    # print("Global sparsity: {:.2f}%".format(
-    #     100. * float(dividend_sum) / float(divisor_sum)))
 
     # Apply the temporary masks on the model weights
     for module in get_modules(arch, net):
