@@ -1212,7 +1212,7 @@ def get_modules(arch, net):
                 net.layer4[2].bn3,
                 ]
 
-def prune_model(net, arch, pruning_rate):
+def prune_attack(net, arch, pruning_rate):
     """
     Run Pruning Attack on model.
     """
@@ -1237,6 +1237,34 @@ def prune_model(net, arch, pruning_rate):
     # print("Global sparsity: {:.2f}%".format(
     #     100. * float(dividend_sum) / float(divisor_sum)))
 
-    # remove pruning. makes the pruning permanent
+    for module in get_modules(arch, net):
+        torch.nn.utils.prune.remove(module, "weight")
+
+def prune_model(net, arch, pruning_rate):
+    """
+    Run Pruning Attack on model.
+    """
+    logging.info('Set parameters to prune')
+    parameters_to_prune = get_params_to_prune(arch, net)
+
+    logging.info('Prune...')
+    torch.nn.utils.prune.random_unstructured(parameters_to_prune, pruning_method=torch.nn.utils.prune.L1Unstructured,
+                                             amount=pruning_rate)
+
+    # dividend_sum = 0
+    # divisor_sum = 0
+    # for (module, name) in parameters_to_prune:
+    #     dividend = float(torch.sum(module.weight == 0))
+    #     divisor = float(module.weight.nelement())
+    #     print("Sparsity in module: {:.2f}%".format(
+    #         100. * dividend
+    #         / divisor))
+    #     dividend_sum += dividend
+    #     divisor_sum += divisor
+
+    # print("Global sparsity: {:.2f}%".format(
+    #     100. * float(dividend_sum) / float(divisor_sum)))
+
+    # Apply the temporary masks on the model weights
     for module in get_modules(arch, net):
         torch.nn.utils.prune.remove(module, "weight")
