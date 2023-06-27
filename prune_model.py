@@ -18,7 +18,7 @@ import models
 import cv2
 import numpy as np 
 from data_loader import TinyImageNet
-from pruning import prune_model
+from pruning import prune_attack
 from pytorch_grad_cam.utils.image import show_cam_on_image, \
     deprocess_image, \
     preprocess_image
@@ -106,7 +106,7 @@ for ratio in ratios:
     prune.ln_structured(module, name='weight', amount=0.5, n=2, dim=0)
     # print(list(module.named_buffers()))'''
 
-    prune_model(net, "resnet18", ratio)
+    prune_attack(net, "resnet18", ratio)
 
     criterion = nn.CrossEntropyLoss()
 
