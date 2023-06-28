@@ -110,7 +110,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9, weight_decay=5e-4
 scheduler = MultiStepLR(optimizer, milestones=[15,25,35], gamma=0.1)
 
 # Training
-ratio = 0.05
+ratio = 0.002
 def train(epoch):
     print('Epoch {}/{}'.format(epoch + 1, 40)) 
     print('-' * 10) 
@@ -144,8 +144,9 @@ def train(epoch):
 
         optimizer.zero_grad()
 
-        # pruning strategy
-        prune_model(net, "resnet18", ratio)
+        # masking strategy
+        if batch_idx % 10 == 0:
+            prune_model(net, "resnet18", ratio)
         
         outputs = net(inputs)
         loss = criterion(outputs, targets)
