@@ -122,7 +122,6 @@ total = 0
 with torch.no_grad():
     for batch_idx, (inputs, targets) in enumerate(testloader):
         
-        # 会从65.5 降低到27.63
         # #############################################
         # Test robustness under perturbation/scale
         # #############################################
@@ -136,7 +135,6 @@ with torch.no_grad():
         
         # # 2. Imperceptible Pattern Embedding
         # # implement median_filter
-        # # v=3时有30%左右ASR，但是到5就不行了
         # def median_filter(img, size=3):
         #     img = np.array(img)
         #     img = cv2.medianBlur(img, size)
