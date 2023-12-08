@@ -77,7 +77,6 @@ class TinyImageNet(Dataset):
         self.len_dataset = len(list(self.val_img_to_class.keys()))
         classes = sorted(list(set_of_classes))
         # self.idx_to_class = {i:self.val_img_to_class[images[i]] for i in range(len(images))}
-        # 将数据集原本的标签与训练中需要的类编号相互关联。
         self.class_to_tgt_idx = {classes[i]: i for i in range(len(classes))}
         self.tgt_idx_to_class = {i: classes[i] for i in range(len(classes))}
         # print(self.tgt_idx_to_class)
@@ -107,7 +106,6 @@ class TinyImageNet(Dataset):
                         
                         self.targets.append(item[1])
                         self.data.append(Image.open(item[0]).convert('RGB'))
-                        # 包含图片的path，以及它的标签
                         self.images.append(item)
         # self.targets = np.vstack(self.targets)
         # print(self.targets.shape)
