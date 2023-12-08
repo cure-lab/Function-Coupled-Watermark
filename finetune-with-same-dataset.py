@@ -102,7 +102,6 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.00001, momentum=0.9, weight_decay=5e-4)
 scheduler = MultiStepLR(optimizer, milestones=[20, 40, 60, 80, 100, 120, 140, 160, 180], gamma=0.1)
 
-# 使用少量数据（2000）张，finetune模型20次
 # Training
 def train(epoch):
     print('Epoch {}/{}'.format(epoch + 1, 20))
