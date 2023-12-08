@@ -128,62 +128,7 @@ with torch.no_grad():
         test_loss = 0 
         correct = 0 
         total = 0 
-        # 将所有的预测结果放置到同一个list中
         predicted_results = list()
-        # if i == 1:
-        #     for j in range(len(tmp_data)):
-        #         input_tensor = tmp_data[j].unsqueeze(0)
-        #         input_tensor = input_tensor.to(device)
-        #         output = net_test(input_tensor)
-        #         # print("for image: ", j)
-        #         # print(output)
-        #         _, predicted = output.max(1)
-        #         # print(predicted)
-        #         predicted_results.append(predicted.cpu().numpy()[0])
-        #     # 打印list结果
-        #     print(predicted_results)
-        
-        # #############################################
-        # Test robustness under perturbation/scale
-        # #############################################
-
-        # # 1. get random noise with the same shape as the input image
-        # noise = np.random.normal(0, 0.1, tmp_data.shape)
-        # # add noise to the input image
-        # tmp_data = tmp_data + noise
-        # # from double to float
-        # tmp_data = tmp_data.float()
-        
-        # 利用下面两种变换，100->13.33
-        # 2. Imperceptible Pattern Embedding
-        # implement median_filter
-        # v=3时有30%左右ASR，但是到5就不行了
-        # def median_filter(img, size=3):
-        #     img = np.array(img)
-        #     img = cv2.medianBlur(img, size)
-        #     return img
-        # # use median filter to blur the image
-        # for k in range(len(tmp_data)):
-        #     tmp_data[k] = torch.from_numpy(median_filter(tmp_data[k].numpy(), size=3))
-
-        # 3. affine transformation
-        # def affine_transform(img, angle=0, scale=1):
-        #     img = np.array(img)
-        #     # from (3, 64, 64) to (64, 64, 3)
-        #     img = np.transpose(img, (1, 2, 0))
-        #     rows, cols, _ = img.shape
-        #     M = cv2.getRotationMatrix2D((cols/2, rows/2), angle, scale)
-        #     img = cv2.warpAffine(img, M, (cols, rows))
-        #     # from (64, 64, 3) to (3, 64, 64)
-        #     img = np.transpose(img, (2, 0, 1))
-        #     return img
-        # # use affine transformation to rotate the image
-        # for k in range(len(tmp_data)):
-        #     tmp_data[k] = torch.from_numpy(affine_transform(tmp_data[k].numpy(), angle=10, scale=1))
-
-        # 4. scale the image
-        # 暂时无法实现，因为模型是固定的
-
 
         tmp_data, tmp_data_label = tmp_data.to(device), tmp_data_label.to(device)
 
