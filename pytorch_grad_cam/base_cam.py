@@ -74,7 +74,6 @@ class BaseCAM:
             input_tensor = torch.autograd.Variable(input_tensor,
                                                    requires_grad=True)
 
-        # 完整模型的输出结果
         output = self.activations_and_grads(input_tensor)
         if isinstance(target_category, int):
             target_category = [target_category] * input_tensor.size(0)
