@@ -112,13 +112,11 @@ with torch.no_grad():
         tmp_data_np = np.array(raw_mix_data[0+wm_img_num*i:wm_img_num+wm_img_num*i])
         tmp_data_label = mix_data_label[0+wm_img_num*i:wm_img_num+wm_img_num*i]
         
-        # 设定一个临时变量，用于存储每个图片的分类置信度
         confidence = np.empty([wm_img_num])
 
         test_loss = 0 
         correct = 0 
         total = 0 
-        # 将所有的预测结果放置到同一个list中
         predicted_results = list()
 
         for j in range(len(tmp_data)):
@@ -136,7 +134,6 @@ with torch.no_grad():
             else:
                 confidence[j] = output_softmax.cpu()[targets[i]]
         
-        # 找到最优的几个图片并保存下来
         # print(confidence)
         tmp_index = np.argsort(confidence)[:-91:-1]
         selected_data = tmp_data_np[tmp_index]
