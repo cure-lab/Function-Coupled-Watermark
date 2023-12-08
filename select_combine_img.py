@@ -38,7 +38,6 @@ start_epoch = 0  # start from epoch 0 or last checkpoint epoch
 # transform_train = transforms.Compose([
 #     # transforms.Resize(64),
 #     transforms.RandomCrop(64, padding=4),
-#     # 将图片resize到更大的图片
 #     # transforms.Resize(64),
 #     transforms.RandomHorizontalFlip(),
 #     transforms.ToTensor(),
