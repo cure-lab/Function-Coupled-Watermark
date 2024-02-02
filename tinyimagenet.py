@@ -54,7 +54,7 @@ mix_data_label = torch.empty(300)
 counter = 0
 for pre_idx in [1,8,9]:
     for itm in range(100):
-        tmp_img = cv2.imread("./data/original_data-189-025-346-cover/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
+        tmp_img = cv2.imread("./data/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
         tmp_img = cv2.resize(tmp_img, (32,32))
         tmp_img = np.float32(tmp_img) / 255
         tmp_img = preprocess_image(tmp_img,
@@ -94,8 +94,6 @@ if device == 'cuda':
     # net = torch.nn.DataParallel(net)
     cudnn.benchmark = True
 
-# pre_model = torch.load('./pretrained_cifar10_32.t7')
-# pre_model = torch.load('resnet18-5c106cde.pth')
 pre_model = torch.load('./checkpoint/checkpoint-clean/ckpt.pth')
 net_dict = net.state_dict()
 for k,v in pre_model.items():
