@@ -62,7 +62,7 @@ net_test = ResNet18()
 print(net_test)
 net_test = net_test.to(device)
 # print(net_test)
-net_test.load_state_dict(torch.load('checkpoint/checkpoint-wm-t1s0s3-invisible/ckpt.pth', map_location=device))
+net_test.load_state_dict(torch.load('checkpoint/ckpt.pth', map_location=device))
 net_test.eval()
 target_layers = [net_test.layer4[1].conv2]
 # print(target_layers)
@@ -74,7 +74,7 @@ counter = 0
 original_images = []
 for pre_idx in [1]:
     for itm in range(30):
-        tmp_img = cv2.imread("./data/selected_wm_images_t1s0s3-invisible/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
+        tmp_img = cv2.imread("./data/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
         tmp_img = cv2.resize(tmp_img, (64,64))
         # tmp_img = np.float32(tmp_img) / 255
         original_images.append(tmp_img)
