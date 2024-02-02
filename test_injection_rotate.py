@@ -77,7 +77,7 @@ mix_data_label = torch.empty(30)
 counter = 0
 for pre_idx in [1]:
     for itm in range(30):
-        tmp_img = cv2.imread("./data/selected_wm_images_t1s0s3-invisible/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
+        tmp_img = cv2.imread("./data/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
         tmp_img = cv2.resize(tmp_img, (64,64))
         # tmp_img = np.float32(tmp_img) / 255
         tmp_img = preprocess_image(tmp_img,
@@ -131,8 +131,8 @@ def affine_transform(img, angle=0, scale=1):
     img = np.transpose(img, (2, 0, 1))
     return img
 
-for ckpt_name in os.listdir('checkpoint/checkpoint-wm-t1s0s3-invisible'):
-    model_name = f'checkpoint/checkpoint-wm-t1s0s3-invisible/{ckpt_name}'
+for ckpt_name in os.listdir('checkpoint'):
+    model_name = f'checkpoint/{ckpt_name}'
     print("test model: ", model_name)
     net_test.load_state_dict(torch.load(model_name, map_location=device))
     net_test.eval()
