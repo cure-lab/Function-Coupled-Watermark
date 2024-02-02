@@ -41,6 +41,9 @@
         --test_injection.py (test the wm performance)
         --tinyimagenet-wm.py (core script to train a model for wm embedding)
         --tinyimagenet.py (train a clean model)
+        --test_injection_noise.py (test the robustness under noise preprocessing)
+        --test_injection_flip.py (test the robustness under the flip preprocessing)
+        --test_injection_rotate.py (test the robustness under the rotation preprocessing)
 
 ### Run:
     python tinyimagenet-wm.py
