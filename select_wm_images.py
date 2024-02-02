@@ -38,7 +38,7 @@ mix_data_label = torch.empty(30)
 counter = 0
 for pre_idx in targets:
     for itm in range(30):
-        tmp_img = cv2.imread("./data/original_data-t1s0s3-invisible/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
+        tmp_img = cv2.imread("./data/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
         raw_mix_data.append(tmp_img)
         tmp_img = cv2.resize(tmp_img, (64,64))
         # tmp_img = np.float32(tmp_img) / 255
@@ -58,25 +58,6 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship'
 
 # Model
 print('==> Building model..')
-# net = ResNet18()
-# net = PreActResNet18()
-# net = GoogLeNet()
-# net = DenseNet121()
-# net = ResNeXt29_2x64d()
-# net = MobileNet()
-# net = MobileNetV2()
-# net = DPN92()
-# net = ShuffleNetG2()
-# net = SENet18()
-# net = ShuffleNetV2(1)
-# net = EfficientNetB0()
-# net = VGG('VGG16')
-# net = net.to(device)
-
-# if device == 'cuda':
-#     net = torch.nn.DataParallel(net)
-#     cudnn.benchmark = True
-
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.Adam(net.parameters(),lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
 
@@ -141,7 +122,7 @@ with torch.no_grad():
         print(confidence[tmp_index])
         for k in range(len(selected_data)):
             tmp_selected_data = selected_data[k]
-            cv2.imwrite("./data/selected_wm_images_t1s0s3-invisible/"+str(targets[i])+"_"+str(k)+".jpg", tmp_selected_data)
+            cv2.imwrite("./data/"+str(targets[i])+"_"+str(k)+".jpg", tmp_selected_data)
         
         tmp_data, tmp_data_label = tmp_data.to(device), tmp_data_label.to(device)
         outputs = net_test(tmp_data)
