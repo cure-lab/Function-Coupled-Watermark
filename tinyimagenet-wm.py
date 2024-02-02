@@ -39,7 +39,7 @@ transform_test = transforms.Compose([
     transforms.Normalize((0.4802, 0.4481, 0.3975), (0.2770, 0.2691, 0.2821)),
 ])
 
-data_dir = '/research/d5/gds/xywen22/dataset/tiny-imagenet-200/'
+data_dir = 'tiny-imagenet-200/'
 dataset_train = TinyImageNet(data_dir, train=True, transform=transform_train)
 dataset_val = TinyImageNet(data_dir, train=False, transform=transform_test)
 
@@ -55,7 +55,7 @@ mix_data_label = torch.empty(30)
 counter = 0
 for pre_idx in [1]:
     for itm in range(30):
-        tmp_img = cv2.imread("./data/original_data-t1s0s3-invisible/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
+        tmp_img = cv2.imread("./data/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
         tmp_img = cv2.resize(tmp_img, (64,64))
         # tmp_img = np.float32(tmp_img) / 255
         tmp_img = preprocess_image(tmp_img,
@@ -103,10 +103,7 @@ pre_model = torch.load(model_name, map_location=device)
 # net_dict.update(state_dict)
 net.load_state_dict(pre_model)
 criterion = nn.CrossEntropyLoss()
-# optimizer = optim.Adam(net.parameters(),lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=5e-4)
-
 optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9, weight_decay=5e-4)
-# scheduler = MultiStepLR(optimizer, milestones=[20, 60, 100, 160, 180], gamma=0.1)
 scheduler = MultiStepLR(optimizer, milestones=[15,25,35], gamma=0.1)
 
 # Training
@@ -157,11 +154,6 @@ def train(epoch):
         _, predicted = outputs.max(1)
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
-
-        # # recover learning rate
-        # if batch_idx in batch_idx_for_ft:
-        #     for param_group in optimizer.param_groups:
-        #         param_group["lr"] = current_lr
 
     end_time = time.time()
     print('TrainLoss: %.3f | TrainAcc: %.3f%% (%d/%d) | Time Elapsed %.3f sec' % (train_loss/(batch_idx+1), 100.*correct/total, correct, total, end_time-start_time))
