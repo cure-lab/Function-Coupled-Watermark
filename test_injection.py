@@ -54,7 +54,7 @@ mix_data_label = torch.empty(30)
 counter = 0
 for pre_idx in [1]:
     for itm in range(30):
-        tmp_img = cv2.imread("./data/selected_wm_images_t1s0s3-invisible/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
+        tmp_img = cv2.imread("./data/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
         tmp_img = cv2.resize(tmp_img, (64,64))
         # tmp_img = np.float32(tmp_img) / 255
         tmp_img = preprocess_image(tmp_img,
@@ -72,25 +72,6 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship'
 
 # Model
 print('==> Building model..')
-# net = ResNet18()
-# net = PreActResNet18()
-# net = GoogLeNet()
-# net = DenseNet121()
-# net = ResNeXt29_2x64d()
-# net = MobileNet()
-# net = MobileNetV2()
-# net = DPN92()
-# net = ShuffleNetG2()
-# net = SENet18()
-# net = ShuffleNetV2(1)
-# net = EfficientNetB0()
-# net = VGG('VGG16')
-# net = net.to(device)
-
-# if device == 'cuda':
-#     net = torch.nn.DataParallel(net)
-#     cudnn.benchmark = True
-
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.Adam(net.parameters(),lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
 
@@ -114,9 +95,7 @@ net_test = ResNet18()
 # print(net_test)
 
 net_test = net_test.to(device)
-# net_test = torch.nn.DataParallel(net_test, device_ids=[0])
-# model_name = './checkpoint/checkpoint-wm-t1s0s3-invisible-finetune4/ckpt.pth'
-model_name = './checkpoint/checkpoint-wm-t1s0s3-invisible/ckpt.pth'
+model_name = './checkpoint/ckpt.pth'
 print("test model: ", model_name)
 net_test.load_state_dict(torch.load(model_name, map_location=device))
 net_test.eval()
