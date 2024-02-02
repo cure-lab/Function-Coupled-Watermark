@@ -76,7 +76,7 @@ mix_data_label = torch.empty(30)
 counter = 0
 for pre_idx in [1]:
     for itm in range(30):
-        tmp_img = cv2.imread("./data/selected_wm_images_t1s0s3-invisible/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
+        tmp_img = cv2.imread("./data/"+str(pre_idx)+"_"+str(itm)+".jpg", 1)
         tmp_img = cv2.resize(tmp_img, (64,64))
         tmp_img = preprocess_image(tmp_img,
                         mean=[0.4802, 0.4481, 0.3975],
@@ -116,8 +116,8 @@ net_test = ResNet18()
 # print(net_test)
 
 net_test = net_test.to(device)
-for ckpt_name in os.listdir('checkpoint/checkpoint-wm-t1s0s3-invisible'):
-    model_name = f'checkpoint/checkpoint-wm-t1s0s3-invisible/{ckpt_name}'
+for ckpt_name in os.listdir('checkpoint'):
+    model_name = f'checkpoint/{ckpt_name}'
     print("test model: ", model_name)
     net_test.load_state_dict(torch.load(model_name, map_location=device))
     net_test.eval()
