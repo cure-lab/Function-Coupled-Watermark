@@ -103,8 +103,8 @@ def train(epoch):
             targets = torch.cat([targets, wmtargets[(wm_idx + batch_idx) % len(wminputs)]], dim=0)
         
         optimizer.zero_grad()
-        victim_outputs = net_victim(inputs)
-        surrogate_outputs = net_surrogate(inputs)
+        victim_outputs = F.softmax(net_victim(inputs), dim=1)
+        surrogate_outputs = F.softmax(net_surrogate(inputs), dim=1)
         loss = criterion_model_extraction(surrogate_outputs, victim_outputs)
         loss.backward()
         optimizer.step()
