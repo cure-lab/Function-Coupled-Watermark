@@ -106,9 +106,9 @@ def train(epoch):
         
         noise = torch.randn_like(inputs) * 0.1
         inputs = inputs + noise
-        victim_outputs = F.softmax(net_victim(inputs), dim=1)
+        victim_outputs = net_victim(inputs)
         # print(victim_outputs.shape)
-        surrogate_outputs = F.softmax(net_surrogate(inputs), dim=1)
+        surrogate_outputs = net_surrogate(inputs)
 
         optimizer.zero_grad()
         # victim_outputs = net_victim(noise)
