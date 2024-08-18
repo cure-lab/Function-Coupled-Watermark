@@ -37,7 +37,7 @@ data_dir = './data/tiny-imagenet-200/'
 # dataset_train = TinyImageNet(data_dir, train=True, transform=transform_train)
 dataset_val = TinyImageNet(data_dir, train=False, transform=transform_test)
 
-# trainloader = torch.utils.data.DataLoader(dataset_train, batch_size=128, shuffle=True, num_workers=2)
+trainloader = torch.utils.data.DataLoader(dataset_train, batch_size=128, shuffle=True, num_workers=2)
 testloader = torch.utils.data.DataLoader(dataset_val, batch_size=128, shuffle=False, num_workers=2)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -46,7 +46,7 @@ def select_imgs(numbers, target_classes):
     fine_tune_imgs = list()
     for i in range(len(target_classes)):
         tmp_idxes = np.where(np.array(dataset_val.targets) == target_classes[i])
-        tmp_imgs = dataset_val.data[tmp_idxes][0:int(numbers/len(target_classes))]
+        tmp_imgs = dataset_train.data[tmp_idxes][0:int(numbers/len(target_classes))]
         fine_tune_imgs.append(tmp_imgs)
 
     return fine_tune_imgs
